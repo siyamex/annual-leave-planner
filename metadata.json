@@ -1,5 +1,6 @@
 {
   "name": "Annual Leave Planner",
   "description": "A simple web application to manage and visualize staff annual leave plans on a yearly calendar. Each staff member's leave is highlighted with a unique color.",
-  "requestFramePermissions": []
+  "requestFramePermissions": [],
+  "prompt": ""
 }
