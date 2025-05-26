@@ -8,15 +8,39 @@ import CalendarGrid from './components/CalendarGrid';
 import useLocalStorage from './hooks/useLocalStorage';
 
 const App: React.FC = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [passwordInput, setPasswordInput] = useState<string>('');
+  const [authError, setAuthError] = useState<string>('');
+
   const [staffMembers, setStaffMembers] = useLocalStorage<StaffMember[]>('annualLeavePlanner_staff', []);
   const [leaves, setLeaves] = useLocalStorage<Leave[]>('annualLeavePlanner_leaves', []);
   const [activeStaffId, setActiveStaffId] = useState<string | null>(null);
   const [selectedYear, setSelectedYear] = useState<number>(new Date().getFullYear());
 
-  // State for multi-date selection
   const [isMouseDown, setIsMouseDown] = useState<boolean>(false);
   const [selectionAnchorDate, setSelectionAnchorDate] = useState<Date | null>(null);
-  const [highlightedRange, setHighlightedRange] = useState<string[]>([]); // YYYY-MM-DD strings
+  const [highlightedRange, setHighlightedRange] = useState<string[]>([]);
+
+  // Check session storage for authentication status on mount
+  useEffect(() => {
+    if (sessionStorage.getItem('annualLeavePlanner_isAuthenticated_ratolladmin') === 'true') {
+      setIsAuthenticated(true);
+    }
+  }, []);
+
+  const handlePasswordSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Hardcoded password as per request
+    if (passwordInput === 'ratolladmin') {
+      setIsAuthenticated(true);
+      sessionStorage.setItem('annualLeavePlanner_isAuthenticated_ratolladmin', 'true');
+      setAuthError('');
+      setPasswordInput(''); // Clear password input on success
+    } else {
+      setAuthError('Incorrect password. Please try again.');
+      setPasswordInput('');
+    }
+  };
 
   const addStaff = useCallback((name: string) => {
     const newStaffMember: StaffMember = {
@@ -37,7 +61,6 @@ const App: React.FC = () => {
 
   const getDatesInRange = (startDate: Date, endDate: Date): string[] => {
     const dates: string[] = [];
-    // Ensure startDate is the earlier date
     const start = new Date(Math.min(startDate.getTime(), endDate.getTime()));
     const end = new Date(Math.max(startDate.getTime(), endDate.getTime()));
     
@@ -69,7 +92,6 @@ const App: React.FC = () => {
 
   const handleGlobalMouseUp = useCallback(() => {
     if (!isMouseDown) return;
-
     setIsMouseDown(false); 
 
     if (!activeStaffId) {
@@ -84,12 +106,10 @@ const App: React.FC = () => {
     if (highlightedRange.length > 0) {
       setLeaves(prevLeaves => {
         let newLeavesList = [...prevLeaves];
-        
         highlightedRange.forEach(dateString => {
           const existingLeaveIndex = newLeavesList.findIndex(
             leave => leave.staffId === activeStaffId && leave.date === dateString
           );
-
           if (existingLeaveIndex > -1) {
             newLeavesList = newLeavesList.filter((_, index) => index !== existingLeaveIndex);
           } else {
@@ -102,7 +122,6 @@ const App: React.FC = () => {
     setSelectionAnchorDate(null);
     setHighlightedRange([]);
   }, [isMouseDown, activeStaffId, highlightedRange, setLeaves]);
-
 
   const handleGlobalMouseUpRef = useRef(handleGlobalMouseUp);
   useEffect(() => {
@@ -122,6 +141,47 @@ const App: React.FC = () => {
   const handleChangeYear = useCallback((increment: number) => {
     setSelectedYear(prevYear => prevYear + increment);
   }, []);
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-tr from-slate-900 to-slate-700 p-4">
+        <div className="bg-white p-8 sm:p-10 rounded-xl shadow-2xl w-full max-w-md text-center">
+          <h1 className="text-3xl font-bold text-slate-700 mb-3">Access Planner</h1>
+          <p className="text-slate-500 mb-8">Please enter the password to continue.</p>
+          <form onSubmit={handlePasswordSubmit} className="space-y-6">
+            <div>
+              <label htmlFor="password" className="sr-only">Password</label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autoComplete="current-password"
+                required
+                value={passwordInput}
+                onChange={(e) => setPasswordInput(e.target.value)}
+                placeholder="Password"
+                className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow text-lg"
+              />
+            </div>
+            {authError && (
+              <p className="text-red-500 text-sm bg-red-50 p-3 rounded-md border border-red-200">{authError}</p>
+            )}
+            <div>
+              <button
+                type="submit"
+                className="w-full px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 text-lg"
+              >
+                Access Planner
+              </button>
+            </div>
+          </form>
+           <p className="mt-8 text-xs text-slate-400">
+            This is a client-side password prompt for basic access control.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen p-4 sm:p-8 text-slate-800">

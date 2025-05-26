@@ -45,10 +45,13 @@
   }
 }
 </script>
+  <!-- Add Babel Standalone -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
   <body class="bg-slate-50 text-slate-800">
     <div id="root"></div>
-    <script type="module" src="./index.tsx"></script>
+    <!-- Update script type to text/babel and specify presets -->
+    <script type="text/babel" data-presets="env,react,typescript" data-type="module" src="./index.tsx"></script>
   </body>
 </html><link rel="stylesheet" href="index.css">
 <script src="index.tsx" type="module"></script>
