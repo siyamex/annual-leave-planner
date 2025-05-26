@@ -1,0 +1,48 @@
+
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.16/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.16",
+  "id": "f4b2a18e-76c9-4b8d-8a5e-7d9c1b0a9f23",
+  "version": "1.0.0",
+  "packageName": "com.contoso.annualleaveplanner",
+  "developer": {
+    "name": "Contoso Developer",
+    "websiteUrl": "{{YOUR_HOSTED_APP_FULL_URL}}",
+    "privacyUrl": "{{YOUR_HOSTED_APP_FULL_URL}}/privacy.html",
+    "termsOfUseUrl": "{{YOUR_HOSTED_APP_FULL_URL}}/termsofuse.html"
+  },
+  "name": {
+    "short": "Leave Planner",
+    "full": "Annual Leave Planner"
+  },
+  "description": {
+    "short": "Plan and manage staff annual leave.",
+    "full": "An application to help managers plan and visualize staff annual leave on a yearly calendar. Each staff member's leave is highlighted with a unique color."
+  },
+  "icons": {
+    "color": "color.png",
+    "outline": "outline.png"
+  },
+  "accentColor": "#FFFFFF",
+  "staticTabs": [
+    {
+      "entityId": "annualLeavePlannerMainTab",
+      "name": "Annual Leave Planner",
+      "contentUrl": "{{YOUR_HOSTED_APP_FULL_URL}}/index.html",
+      "websiteUrl": "{{YOUR_HOSTED_APP_FULL_URL}}/index.html",
+      "scopes": ["personal", "team", "groupchat"]
+    }
+  ],
+  "permissions": ["identity", "messageTarget"],
+  "validDomains": [
+    "{{YOUR_GITHUB_PAGES_DOMAIN}}",
+    "cdn.tailwindcss.com",
+    "esm.sh",
+    "fonts.googleapis.com",
+    "fonts.gstatic.com"
+  ],
+  "webApplicationInfo": {
+    "id": "{{AZURE_AD_APP_CLIENT_ID}}",
+    "resource": "api://{{YOUR_GITHUB_PAGES_DOMAIN}}/{{AZURE_AD_APP_CLIENT_ID}}"
+  }
+}
