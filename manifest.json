@@ -1,23 +1,22 @@
-
 {
   "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.16/MicrosoftTeams.schema.json",
   "manifestVersion": "1.16",
   "id": "f4b2a18e-76c9-4b8d-8a5e-7d9c1b0a9f23",
-  "version": "1.0.0",
-  "packageName": "com.contoso.annualleaveplanner",
+  "version": "1.0.1",
+  "packageName": "com.siyamex.annualleaveplanner.vercel",
   "developer": {
-    "name": "Contoso Developer",
-    "websiteUrl": "{{YOUR_HOSTED_APP_FULL_URL}}",
-    "privacyUrl": "{{YOUR_HOSTED_APP_FULL_URL}}/privacy.html",
-    "termsOfUseUrl": "{{YOUR_HOSTED_APP_FULL_URL}}/termsofuse.html"
+    "name": "SiyamEX",
+    "websiteUrl": "https://annual-planner-m1h3a5spj-siyamexs-projects.vercel.app/",
+    "privacyUrl": "https://annual-planner-m1h3a5spj-siyamexs-projects.vercel.app/privacy.html",
+    "termsOfUseUrl": "https://annual-planner-m1h3a5spj-siyamexs-projects.vercel.app/termsofuse.html"
   },
   "name": {
-    "short": "Leave Planner",
-    "full": "Annual Leave Planner"
+    "short": "Leave Planner (Vercel)",
+    "full": "Annual Leave Planner by SiyamEX (Vercel)"
   },
   "description": {
     "short": "Plan and manage staff annual leave.",
-    "full": "An application to help managers plan and visualize staff annual leave on a yearly calendar. Each staff member's leave is highlighted with a unique color."
+    "full": "An application to help managers plan and visualize staff annual leave on a yearly calendar. Each staff member's leave is highlighted with a unique color. Hosted on Vercel."
   },
   "icons": {
     "color": "color.png",
@@ -28,21 +27,18 @@
     {
       "entityId": "annualLeavePlannerMainTab",
       "name": "Annual Leave Planner",
-      "contentUrl": "{{YOUR_HOSTED_APP_FULL_URL}}/index.html",
-      "websiteUrl": "{{YOUR_HOSTED_APP_FULL_URL}}/index.html",
+      "contentUrl": "https://annual-planner-m1h3a5spj-siyamexs-projects.vercel.app/index.html",
+      "websiteUrl": "https://annual-planner-m1h3a5spj-siyamexs-projects.vercel.app/index.html",
       "scopes": ["personal", "team", "groupchat"]
     }
   ],
-  "permissions": ["identity", "messageTarget"],
+  "permissions": ["identity"],
   "validDomains": [
-    "{{YOUR_GITHUB_PAGES_DOMAIN}}",
+    "annual-planner-m1h3a5spj-siyamexs-projects.vercel.app",
     "cdn.tailwindcss.com",
     "esm.sh",
     "fonts.googleapis.com",
-    "fonts.gstatic.com"
-  ],
-  "webApplicationInfo": {
-    "id": "{{AZURE_AD_APP_CLIENT_ID}}",
-    "resource": "api://{{YOUR_GITHUB_PAGES_DOMAIN}}/{{AZURE_AD_APP_CLIENT_ID}}"
-  }
+    "fonts.gstatic.com",
+    "unpkg.com"
+  ]
 }
